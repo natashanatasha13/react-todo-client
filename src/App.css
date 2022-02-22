@@ -137,7 +137,7 @@ ul {
   opacity: 0;
 }
 
-.to_change {
+.to-change {
   width: 20px;
   height: 20px;
   border-radius: 50px;
@@ -147,7 +147,7 @@ ul {
   top: 20%;
 }
 
-.to_change_done {
+.to-change-done {
   background-color: rgb(180, 196, 180);
 }
 .items_conteiner {
@@ -156,7 +156,7 @@ ul {
   align-items: center;
 }
 
-.lower_footer {
+.lower-footer {
   position: relative;
   bottom: 45px;
   z-index: -1;
@@ -176,7 +176,7 @@ ul {
   background: white;
 }
 
-.lowest_footer {
+.lowest-footer {
   position: relative;
   bottom: 90px;
   z-index: -2;

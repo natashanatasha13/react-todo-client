@@ -5,22 +5,22 @@ class ButtonStatus extends React.Component {
     super(props);
   }
 
-  change = () => {
-    const { changeStatus } = this.props;
-    changeStatus(
-      this.props.todoid,
-      this.props.status ? STATUSES.done : STATUSES.active
-    );
-  };
   render() {
+    const { changeStatus } = this.props;
+    const change = () => {
+      changeStatus(
+        this.props.todoId,
+        this.props.status ? STATUSES.done : STATUSES.active
+      );
+    };
     return (
       <span
-        className={`to_change ${
-          this.props.status ? `to_change_active` : `to_change_done`
+        className={`to-change ${
+          this.props.status ? `to-change` : `to-change-done`
         }`}
-        todoid={this.props.todoid}
+        todoId={this.props.todoId}
         status={this.props.status}
-        onClick={this.change}
+        onClick={change}
       ></span>
     );
   }

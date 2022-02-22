@@ -5,16 +5,16 @@ class List extends React.Component {
     super(props);
   }
   render() {
-    const todos = this.props.todos;
-    const { changeStatus, deleteTodo, setCounter } = this.props;
+    const { todos, changeStatus, deleteTodo, setCounter } = this.props;
 
     return (
       <ul>
         {todos.map((element) => (
           <ListElement
+            key={element.id}
             textContent={element.value}
             changeStatus={changeStatus}
-            todoid={element.id}
+            todoId={element.id}
             status={element.status}
             deleteTodo={deleteTodo}
             setCounter={setCounter}

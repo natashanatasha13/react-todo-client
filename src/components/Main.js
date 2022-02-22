@@ -21,26 +21,29 @@ class Main extends React.Component {
       counter: 0,
     };
   }
+
   componentDidMount() {
-    const res = async () => {
-      const counter = this.state.counter;
-      const unparsedData = await fetch(`http://127.0.0.1:3000/`);
-      const data = await unparsedData.json();
-
-      const resWithoutDeleted = data.filter(
-        (element) => element.status !== STATUSES.completed
-      );
-      const resActive = data.filter(
-        (element) => element.status === STATUSES.active
-      );
-      this.setState({
-        todoList: resWithoutDeleted,
-        counter: resActive.length,
-      });
-    };
-
-    res();
+    this.res();
   }
+  res = async () => {
+    const counter = this.state;
+    const unparsedData = await callApi(``, {
+      method: "GET",
+    });
+    const data = await unparsedData.json();
+
+    const resWithoutDeleted = data.filter(
+      (element) => element.status !== STATUSES.completed
+    );
+    const resActive = data.filter(
+      (element) => element.status === STATUSES.active
+    );
+    this.setState({
+      todoList: resWithoutDeleted,
+      counter: resActive.length,
+    });
+  };
+
   addTodo = async (e) => {
     const { todoList, currentFilter } = this.state;
 
@@ -50,9 +53,6 @@ class Main extends React.Component {
         value: e.target.value,
         status: STATUSES.active,
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
     const res = await unParsedRes.json();
 
@@ -68,9 +68,6 @@ class Main extends React.Component {
       body: JSON.stringify({
         status: status,
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
 
     if (unParsedRes.status === 200) {
@@ -98,9 +95,6 @@ class Main extends React.Component {
       body: JSON.stringify({
         status: STATUSES.completed,
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
 
     if (unParsedRes.status === 200) {
@@ -118,8 +112,8 @@ class Main extends React.Component {
     this.setCounter(currentFilter);
   };
   setCounter = async (filterValue) => {
-    const counter = this.state.counter;
-    const todoList = this.state.todoList;
+    const { counter, todoList } = this.state;
+
     const unParsedRes = await callApi(`getCounter/${filterValue}`, {
       method: "GET",
     });
@@ -136,9 +130,6 @@ class Main extends React.Component {
         body: JSON.stringify({
           status: STATUSES.completed,
         }),
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
       if (unParsedRes.status === 200) {
         const newTodoList = todoList.filter(
@@ -183,8 +174,8 @@ class Main extends React.Component {
           counter={this.state.counter}
           removeCompleted={this.removeCompleted}
         ></Footer>
-        <FooterLower className="lower_footer" />
-        <FooterLower className="lowest_footer" />
+        <FooterLower className="lower-footer" />
+        <FooterLower className="lowest-footer" />
       </div>
     );
   }

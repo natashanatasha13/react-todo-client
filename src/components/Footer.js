@@ -9,8 +9,8 @@ class Footer extends React.Component {
   }
 
   render() {
-    const currentFilter = this.props.currentFilter;
-    const counter = this.props.counter;
+    const { currentFilter, counter } = this.props;
+
     return (
       <div className={this.props.className}>
         <Counter textContent={counter} />
@@ -35,7 +35,7 @@ class Footer extends React.Component {
         />
         <Button
           className={
-            currentFilter === 0
+            currentFilter === STATUSES.done
               ? "button complited clicked"
               : "button complited"
           }

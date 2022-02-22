@@ -5,8 +5,8 @@ class ButtonClear extends React.Component {
   }
 
   render() {
+    const { removeCompleted } = this.props;
     const removeAllCompleted = () => {
-      const removeCompleted = this.props.removeCompleted;
       removeCompleted();
     };
     return (

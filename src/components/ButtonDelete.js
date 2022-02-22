@@ -5,16 +5,16 @@ class ButtonDelete extends React.Component {
     super(props);
   }
 
-  change = () => {
-    const { deleteTodo } = this.props;
-    deleteTodo(this.props.todoid);
-  };
   render() {
+    const { deleteTodo } = this.props;
+    const change = () => {
+      deleteTodo(this.props.todoId);
+    };
     return (
       <span
         className={this.props.className}
-        onClick={this.change}
-        todoid={this.props.todoid}
+        onClick={change}
+        todoId={this.props.todoId}
         status={this.props.status}
       ></span>
     );
