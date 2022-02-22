@@ -4,10 +4,6 @@ import ButtonClear from "./ButtonClear";
 import Counter from "./counter";
 import { STATUSES } from "./Main";
 class Footer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { currentFilter, counter } = this.props;
 
@@ -18,14 +14,16 @@ class Footer extends React.Component {
         <Button
           className={currentFilter === 3 ? "button all clicked" : "button all"}
           textContent="All"
-          status={3}
+          status={STATUSES.all}
           setCurrentFilter={this.props.setCurrentFilter}
           setCounter={this.props.setCounter}
           filterValue={STATUSES.active}
         />
         <Button
           className={
-            currentFilter === 1 ? "button active clicked" : "button active"
+            currentFilter === STATUSES.active
+              ? "button active clicked"
+              : "button active"
           }
           textContent="Active"
           status={STATUSES.active}

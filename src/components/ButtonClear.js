@@ -1,9 +1,5 @@
 import React from "react";
 class ButtonClear extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { removeCompleted } = this.props;
     const removeAllCompleted = () => {

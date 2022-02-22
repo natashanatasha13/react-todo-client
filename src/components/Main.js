@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import FooterLower from "./FooterLower.js";
 import { callApi } from "./Api";
 export const STATUSES = {
+  all: 3,
   active: 1,
   done: 0,
   completed: 2,
@@ -17,7 +18,7 @@ class Main extends React.Component {
 
     this.state = {
       todoList: [],
-      currentFilter: 3,
+      currentFilter: STATUSES.all,
       counter: 0,
     };
   }
@@ -147,7 +148,7 @@ class Main extends React.Component {
     const { todoList, currentFilter } = this.state;
 
     const filteredTodoList = todoList.filter((el) =>
-      currentFilter === 3
+      currentFilter === STATUSES.all
         ? el.status !== STATUSES.completed
         : el.status === currentFilter
     );

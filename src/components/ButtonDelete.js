@@ -1,10 +1,6 @@
 import React from "react";
 import { STATUSES } from "./Main";
 class ButtonDelete extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { deleteTodo } = this.props;
     const change = () => {

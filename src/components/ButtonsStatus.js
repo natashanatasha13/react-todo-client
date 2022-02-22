@@ -1,10 +1,6 @@
 import React from "react";
 import { STATUSES } from "./Main";
 class ButtonStatus extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { changeStatus } = this.props;
     const change = () => {

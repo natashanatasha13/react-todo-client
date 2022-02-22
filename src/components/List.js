@@ -1,9 +1,6 @@
 import React from "react";
 import ListElement from "./ListElement";
 class List extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const { todos, changeStatus, deleteTodo, setCounter } = this.props;
 
