@@ -5,18 +5,25 @@ import Counter from "./counter";
 import { STATUSES } from "./Main";
 class Footer extends React.Component {
   render() {
-    const { currentFilter, counter } = this.props;
+    const {
+      removeCompleted,
+      className,
+      setCounter,
+      setCurrentFilter,
+      currentFilter,
+      counter,
+    } = this.props;
 
     return (
-      <div className={this.props.className}>
+      <div className={className}>
         <Counter textContent={counter} />
         <Counter textContent="items left" />
         <Button
           className={currentFilter === 3 ? "button all clicked" : "button all"}
           textContent="All"
           status={STATUSES.all}
-          setCurrentFilter={this.props.setCurrentFilter}
-          setCounter={this.props.setCounter}
+          setCurrentFilter={setCurrentFilter}
+          setCounter={setCounter}
           filterValue={STATUSES.active}
         />
         <Button
@@ -27,8 +34,8 @@ class Footer extends React.Component {
           }
           textContent="Active"
           status={STATUSES.active}
-          setCurrentFilter={this.props.setCurrentFilter}
-          setCounter={this.props.setCounter}
+          setCurrentFilter={setCurrentFilter}
+          setCounter={setCounter}
           filterValue={STATUSES.active}
         />
         <Button
@@ -39,14 +46,14 @@ class Footer extends React.Component {
           }
           textContent="Complited"
           status={STATUSES.done}
-          setCurrentFilter={this.props.setCurrentFilter}
-          setCounter={this.props.setCounter}
+          setCurrentFilter={setCurrentFilter}
+          setCounter={setCounter}
           filterValue={STATUSES.done}
         />
         <ButtonClear
           className="button clear"
           textContent="Clear completed"
-          removeCompleted={this.props.removeCompleted}
+          removeCompleted={removeCompleted}
         />
       </div>
     );

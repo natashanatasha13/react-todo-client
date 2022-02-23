@@ -1,14 +1,21 @@
 import React from "react";
 class Button extends React.Component {
   render() {
-    const { setCurrentFilter, setCounter } = this.props;
+    const {
+      textContent,
+      status,
+      filterValue,
+      className,
+      setCurrentFilter,
+      setCounter,
+    } = this.props;
     const changeFilter = () => {
-      setCurrentFilter(this.props.status);
-      setCounter(this.props.filterValue);
+      setCurrentFilter(status);
+      setCounter(filterValue);
     };
     return (
-      <div className={this.props.className} onClick={changeFilter}>
-        {this.props.textContent}{" "}
+      <div className={className} onClick={changeFilter}>
+        {textContent}
       </div>
     );
   }

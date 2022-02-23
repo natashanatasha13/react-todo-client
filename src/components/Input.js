@@ -2,22 +2,23 @@ import React from "react";
 import List from "./List";
 
 class Input extends React.Component {
-  renderLI = (event) => {
-    if (event.key === "Enter") {
-      const { addTodo } = this.props;
-      addTodo(event);
-
-      event.target.value = "";
-    }
-  };
-
   render() {
+    const { addTodo, placeholder } = this.props;
+
+    const renderLI = (event) => {
+      if (event.key === "Enter") {
+        addTodo(event);
+
+        event.target.value = "";
+      }
+    };
+
     return (
       <input
         type="text"
         className="new-todo"
-        placeholder={this.props.placeholder}
-        onKeyDown={this.renderLI}
+        placeholder={placeholder}
+        onKeyDown={renderLI}
       ></input>
     );
   }

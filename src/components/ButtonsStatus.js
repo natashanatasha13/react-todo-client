@@ -2,20 +2,15 @@ import React from "react";
 import { STATUSES } from "./Main";
 class ButtonStatus extends React.Component {
   render() {
-    const { changeStatus } = this.props;
+    const { todoId, status, changeStatus } = this.props;
     const change = () => {
-      changeStatus(
-        this.props.todoId,
-        this.props.status ? STATUSES.done : STATUSES.active
-      );
+      changeStatus(todoId, status ? STATUSES.done : STATUSES.active);
     };
     return (
       <span
-        className={`to-change ${
-          this.props.status ? `to-change` : `to-change-done`
-        }`}
-        todoId={this.props.todoId}
-        status={this.props.status}
+        className={`to-change ${status ? `to-change` : `to-change-done`}`}
+        todoId={todoId}
+        status={status}
         onClick={change}
       ></span>
     );

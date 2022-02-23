@@ -2,7 +2,8 @@ import React from "react";
 
 class FooterLower extends React.Component {
   render() {
-    return <div className={this.props.className}></div>;
+    const { className } = this.props;
+    return <div className={className}></div>;
   }
 }
 
