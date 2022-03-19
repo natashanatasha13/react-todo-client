@@ -1,17 +1,18 @@
 import React from "react";
 import ListElement from "./ListElement";
+import { connect } from "react-redux";
 class List extends React.Component {
   render() {
-    const { todos, changeStatus, deleteTodo, setCounter } = this.props;
+    const { filteredTodos, changeStatus, deleteTodo, setCounter } = this.props;
 
     return (
       <ul>
-        {todos.map((element) => (
+        {filteredTodos.map((element) => (
           <ListElement
             key={element.id}
             textContent={element.value}
             changeStatus={changeStatus}
-            todoId={element.id}
+            todoid={element.id}
             status={element.status}
             deleteTodo={deleteTodo}
             setCounter={setCounter}
@@ -22,4 +23,8 @@ class List extends React.Component {
   }
 }
 
-export default List;
+const mapStateToProps = (state) => ({
+  todos: state.todos.todoList,
+});
+
+export default connect(mapStateToProps)(List);

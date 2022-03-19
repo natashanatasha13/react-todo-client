@@ -5,6 +5,14 @@ import List from "./List";
 import Footer from "./Footer";
 import FooterLower from "./FooterLower.js";
 import { callApi } from "./Api";
+import { connect } from "react-redux";
+import {
+  changeCounterAll,
+  addTodo,
+  changeTodo,
+  changeFilter,
+} from "../store/actions";
+
 export const STATUSES = {
   all: 3,
   active: 1,
@@ -15,19 +23,12 @@ export const STATUSES = {
 class Main extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      todoList: [],
-      currentFilter: STATUSES.all,
-      counter: 0,
-    };
   }
 
   componentDidMount() {
     this.res();
   }
   res = async () => {
-    const counter = this.state;
     const unparsedData = await callApi(``, {
       method: "GET",
     });
@@ -39,15 +40,12 @@ class Main extends React.Component {
     const resActive = data.filter(
       (element) => element.status === STATUSES.active
     );
-    this.setState({
-      todoList: resWithoutDeleted,
-      counter: resActive.length,
-    });
+
+    this.props.addTodo(resWithoutDeleted);
+    this.props.changeCounterAll(resActive.length);
   };
 
   addTodo = async (e) => {
-    const { todoList, currentFilter } = this.state;
-
     const unParsedRes = await callApi("", {
       method: "POST",
       body: JSON.stringify({
@@ -56,14 +54,11 @@ class Main extends React.Component {
       }),
     });
     const res = await unParsedRes.json();
-
-    todoList.push(res);
-    this.setState({ todoList });
-    this.setCounter(currentFilter);
+    //todoList.push(res);
+    await this.props.addTodo(res);
+    await this.setCounter(this.props.currentFilter);
   };
   changeStatus = async (id, status) => {
-    const { todoList, currentFilter } = this.state;
-
     const unParsedRes = await callApi(`changeStatus/${id}`, {
       method: "POST",
       body: JSON.stringify({
@@ -72,25 +67,22 @@ class Main extends React.Component {
     });
 
     if (unParsedRes.status === 200) {
-      const newTodoList = todoList.map((element) => {
+      const newTodoList = this.props.todos.map((element) => {
         const todo = { ...element };
         if (todo.id === id) {
           todo.status = status;
         }
         return todo;
       });
-      this.setState({
-        todoList: newTodoList,
-      });
+      this.props.changeTodo(newTodoList);
     }
-    this.setCounter(currentFilter);
+
+    this.setCounter(this.props.currentFilter);
   };
-  setCurrentFilter = (filter) => {
-    this.setState({ currentFilter: filter });
+  setCurrentFilter = async (filter) => {
+    this.props.changeFilter(filter);
   };
   deleteTodo = async (id) => {
-    const { todoList, currentFilter } = this.state;
-
     const unParsedRes = await callApi(`changeStatus/${id}`, {
       method: "POST",
       body: JSON.stringify({
@@ -99,32 +91,33 @@ class Main extends React.Component {
     });
 
     if (unParsedRes.status === 200) {
-      const newTodoList = todoList.map((element) => {
+      const newTodoList = this.props.todos.map((element) => {
         const todo = { ...element };
         if (todo.id === id) {
           todo.status = STATUSES.completed;
         }
         return todo;
       });
-      this.setState({
-        todoList: newTodoList,
-      });
+      const filtredNewTodoList = newTodoList.filter(
+        (element) => element.status !== STATUSES.completed
+      );
+      await this.props.changeTodo(filtredNewTodoList);
     }
-    this.setCounter(currentFilter);
+    this.setCounter(this.props.currentFilter);
   };
-  setCounter = async (filterValue) => {
-    const { counter, todoList } = this.state;
 
+  setCounter = async (filterValue) => {
     const unParsedRes = await callApi(`getCounter/${filterValue}`, {
       method: "GET",
     });
     const data = await unParsedRes.json();
-
-    this.setState({ counter: data });
+    return await this.props.changeCounterAll(data);
   };
+
   removeCompleted = async () => {
-    const { todoList, currentFilter } = this.state;
-    const doneTodos = todoList.filter((element) => element.status === 0);
+    const doneTodos = this.props.todos.filter(
+      (element) => element.status === 0
+    );
     doneTodos.forEach(async (element) => {
       const unParsedRes = await callApi(`changeStatus/${element.id}`, {
         method: "POST",
@@ -133,24 +126,20 @@ class Main extends React.Component {
         }),
       });
       if (unParsedRes.status === 200) {
-        const newTodoList = todoList.filter(
+        const newTodoList = this.props.todos.filter(
           (element) => element.status === STATUSES.active
         );
-        this.setState({
-          todoList: newTodoList,
-        });
+        await this.props.changeTodo(newTodoList);
       }
-      this.setCounter(currentFilter);
+      this.setCounter(this.props.currentFilter);
     });
   };
 
   render() {
-    const { todoList, currentFilter } = this.state;
-
-    const filteredTodoList = todoList.filter((el) =>
-      currentFilter === STATUSES.all
+    const filteredTodoList = this.props.todos.filter((el) =>
+      this.props.currentFilter === STATUSES.all
         ? el.status !== STATUSES.completed
-        : el.status === currentFilter
+        : el.status === this.props.currentFilter
     );
 
     return (
@@ -158,11 +147,11 @@ class Main extends React.Component {
         <Title textContent="todos" />
         <Input
           placeholder="What needs to be done?"
-          todos={this.state.todoList}
+          todos={this.props.todos}
           addTodo={this.addTodo}
         />
         <List
-          todos={filteredTodoList}
+          filteredTodos={filteredTodoList}
           changeStatus={this.changeStatus}
           deleteTodo={this.deleteTodo}
           setCounter={this.setCounter}
@@ -170,9 +159,9 @@ class Main extends React.Component {
         <Footer
           className="footer"
           setCurrentFilter={this.setCurrentFilter}
-          currentFilter={this.state.currentFilter}
+          currentFilter={this.props.currentFilter}
           setCounter={this.setCounter}
-          counter={this.state.counter}
+          counter={this.props.counter}
           removeCompleted={this.removeCompleted}
         ></Footer>
         <FooterLower className="lower-footer" />
@@ -182,4 +171,17 @@ class Main extends React.Component {
   }
 }
 
-export { Main };
+const mapStateToProps = (state) => ({
+  counter: state.counter.counter,
+  todos: state.todos.todoList,
+  currentFilter: state.filter.currentFilter,
+});
+
+const mapDispatchToProps = {
+  changeCounterAll: changeCounterAll,
+  addTodo: addTodo,
+  changeTodo: changeTodo,
+  changeFilter: changeFilter,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

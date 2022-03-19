@@ -2,6 +2,7 @@ import React from "react";
 import Button from "./Buttons";
 import ButtonClear from "./ButtonClear";
 import Counter from "./counter";
+import { connect } from "react-redux";
 import { STATUSES } from "./Main";
 class Footer extends React.Component {
   render() {
@@ -16,10 +17,12 @@ class Footer extends React.Component {
 
     return (
       <div className={className}>
-        <Counter textContent={counter} />
+        <Counter textContent={this.props.counter} />
         <Counter textContent="items left" />
         <Button
-          className={currentFilter === 3 ? "button all clicked" : "button all"}
+          className={
+            currentFilter === STATUSES.all ? "button all clicked" : "button all"
+          }
           textContent="All"
           status={STATUSES.all}
           setCurrentFilter={setCurrentFilter}
@@ -60,4 +63,8 @@ class Footer extends React.Component {
   }
 }
 
-export default Footer;
+const mapStateToProps = (state) => ({
+  counter: state.counter.counter,
+});
+
+export default connect(mapStateToProps)(Footer);
