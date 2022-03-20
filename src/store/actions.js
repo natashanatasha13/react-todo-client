@@ -1,4 +1,4 @@
-import { ALL, ADD_TODO, CHANGE_TODO, FILTER } from "./types";
+import { ALL, ADD_TODO, CHANGE_TODO, FILTER } from "./constants";
 
 export const changeCounterAll = (value) => {
   return {

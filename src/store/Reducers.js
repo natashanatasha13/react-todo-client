@@ -1,5 +1,5 @@
 import { STATUSES } from "../components/Main";
-import { ADD_TODO, ALL, CHANGE_TODO, FILTER } from "./types";
+import { ADD_TODO, ALL, CHANGE_TODO, FILTER } from "./constants";
 
 const defaultState = {
   todoList: [],
