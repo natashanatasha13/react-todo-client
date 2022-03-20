@@ -4,7 +4,7 @@ import Input from "./Input";
 import List from "./List";
 import Footer from "./Footer";
 import FooterLower from "./FooterLower.js";
-import { callApi } from "./Api";
+import { callApi } from "../callApi/Api";
 import { connect } from "react-redux";
 import {
   changeCounterAll,
@@ -79,7 +79,7 @@ class Main extends React.Component {
 
     this.setCounter(this.props.currentFilter);
   };
-  setCurrentFilter = async (filter) => {
+  setCurrentFilter = (filter) => {
     this.props.changeFilter(filter);
   };
   deleteTodo = async (id) => {

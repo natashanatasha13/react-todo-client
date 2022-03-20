@@ -1,22 +1,20 @@
 import React from "react";
 import { STATUSES } from "./Main";
-import { connect } from "react-redux";
-import { changeCounterPlus } from "../store/actions";
 
 class ButtonStatus extends React.Component {
+  change = async () => {
+    const { todoId, status, changeStatus } = this.props;
+    await changeStatus(todoId, status ? STATUSES.done : STATUSES.active);
+  };
   render() {
-    const { todoid, status, changeStatus } = this.props;
-
-    const change = async () => {
-      await changeStatus(todoid, status ? STATUSES.done : STATUSES.active);
-    };
-
+    const { status } = this.props;
     return (
       <span
-        className={`to-change ${status ? `to-change` : `to-change-done`}`}
-        todoid={todoid}
+        className={`to-change ${
+          this.props.status ? `to-change` : `to-change-done`
+        }`}
         status={status}
-        onClick={change}
+        onClick={this.change}
       ></span>
     );
   }

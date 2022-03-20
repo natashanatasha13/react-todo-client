@@ -12,7 +12,7 @@ class List extends React.Component {
             key={element.id}
             textContent={element.value}
             changeStatus={changeStatus}
-            todoid={element.id}
+            todoId={element.id}
             status={element.status}
             deleteTodo={deleteTodo}
             setCounter={setCounter}

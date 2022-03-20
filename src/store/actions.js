@@ -1,24 +1,4 @@
-import {
-  PLUS_COUNTER,
-  MINUS_COUNTER,
-  ALL,
-  ADD_TODO,
-  CHANGE_TODO,
-  FILTER,
-} from "./types";
-
-export const changeCounterPlus = (value) => {
-  return {
-    type: PLUS_COUNTER,
-    payload: value,
-  };
-};
-export const changeCounterMinus = (value) => {
-  return {
-    type: MINUS_COUNTER,
-    payload: value,
-  };
-};
+import { ALL, ADD_TODO, CHANGE_TODO, FILTER } from "./types";
 
 export const changeCounterAll = (value) => {
   return {

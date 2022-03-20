@@ -1,12 +1,5 @@
 import { STATUSES } from "../components/Main";
-import {
-  ADD_TODO,
-  PLUS_COUNTER,
-  MINUS_COUNTER,
-  ALL,
-  CHANGE_TODO,
-  FILTER,
-} from "./types";
+import { ADD_TODO, ALL, CHANGE_TODO, FILTER } from "./types";
 
 const defaultState = {
   todoList: [],
@@ -15,12 +8,6 @@ const defaultState = {
 };
 export const counter = (state = defaultState, action) => {
   switch (action.type) {
-    case PLUS_COUNTER: {
-      return { ...state, counter: state.counter + action.payload };
-    }
-    case MINUS_COUNTER: {
-      return { ...state, counter: state.counter + action.payload };
-    }
     case ALL: {
       return { ...state, counter: action.payload };
     }

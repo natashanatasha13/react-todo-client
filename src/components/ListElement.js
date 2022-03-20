@@ -4,22 +4,22 @@ import ButtonStatus from "./ButtonsStatus";
 import { STATUSES } from "./Main";
 class ListElement extends React.Component {
   render() {
-    const { todoid, status, textContent, deleteTodo, changeStatus } =
+    const { todoId, status, textContent, deleteTodo, changeStatus } =
       this.props;
 
     return (
-      <li className="list" todoid={todoid} status={status}>
+      <li className="list" status={status}>
         {textContent}
         <ButtonStatus
           changeStatus={changeStatus}
           className="to-change-done"
-          todoid={todoid}
+          todoId={todoId}
           status={status}
         />
         <ButtonDelete
           deleteTodo={deleteTodo}
           className="cross "
-          todoid={todoid}
+          todoId={todoId}
           status={status}
         />
       </li>

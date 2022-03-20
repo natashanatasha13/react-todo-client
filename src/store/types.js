@@ -1,5 +1,3 @@
-export const PLUS_COUNTER = "PLUS_COUNTER";
-export const MINUS_COUNTER = "PLUS_COUNTER";
 export const ALL = "ALL";
 export const ACTIVE = "ACTIVE";
 export const DONE = "DONE";

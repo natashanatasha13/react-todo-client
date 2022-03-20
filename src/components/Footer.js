@@ -12,7 +12,6 @@ class Footer extends React.Component {
       setCounter,
       setCurrentFilter,
       currentFilter,
-      counter,
     } = this.props;
 
     return (
