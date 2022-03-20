@@ -1,12 +1,14 @@
 import React from "react";
 class ButtonClear extends React.Component {
+  removeAllCompleted = () => {
+    const { removeCompleted } = this.props;
+    removeCompleted();
+  };
   render() {
-    const { textContent, className, id, removeCompleted } = this.props;
-    const removeAllCompleted = () => {
-      removeCompleted();
-    };
+    const { textContent, className, id } = this.props;
+
     return (
-      <div className={className} id={id} onClick={removeAllCompleted}>
+      <div className={className} id={id} onClick={this.removeAllCompleted}>
         {textContent}
       </div>
     );

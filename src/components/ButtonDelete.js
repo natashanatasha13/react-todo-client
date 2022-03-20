@@ -1,18 +1,15 @@
 import React from "react";
 import { STATUSES } from "./Main";
 class ButtonDelete extends React.Component {
+  change = () => {
+    const { deleteTodo, todoId } = this.props;
+    deleteTodo(todoId);
+  };
   render() {
-    const { className, status, todoId, deleteTodo } = this.props;
-    const change = () => {
-      deleteTodo(todoId);
-    };
+    const { className, status } = this.props;
+
     return (
-      <span
-        className={className}
-        onClick={change}
-        todoId={todoId}
-        status={status}
-      ></span>
+      <span className={className} onClick={this.change} status={status}></span>
     );
   }
 }

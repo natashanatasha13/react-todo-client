@@ -8,7 +8,7 @@ class ListElement extends React.Component {
       this.props;
 
     return (
-      <li className="list" todoId={todoId} status={status}>
+      <li className="list" status={status}>
         {textContent}
         <ButtonStatus
           changeStatus={changeStatus}
