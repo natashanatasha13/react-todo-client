@@ -1,5 +1,4 @@
 import React from "react";
-import { STATUSES } from "./Main";
 class ButtonDelete extends React.Component {
   change = () => {
     const { deleteTodo, todoId } = this.props;

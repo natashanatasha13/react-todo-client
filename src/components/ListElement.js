@@ -1,7 +1,6 @@
 import React from "react";
 import ButtonDelete from "./ButtonDelete";
 import ButtonStatus from "./ButtonsStatus";
-import { STATUSES } from "./Main";
 class ListElement extends React.Component {
   render() {
     const { todoId, status, textContent, deleteTodo, changeStatus } =

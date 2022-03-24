@@ -4,13 +4,18 @@ import Input from "./Input";
 import List from "./List";
 import Footer from "./Footer";
 import FooterLower from "./FooterLower.js";
-import { callApi } from "../callApi/Api";
 import { connect } from "react-redux";
 import {
   changeCounterAll,
   addTodo,
   changeTodo,
   changeFilter,
+  getTodos,
+  addTodos,
+  changeStatus,
+  setCounter,
+  deleteTodo,
+  removeCompleted,
 } from "../store/actions";
 
 export const STATUSES = {
@@ -21,117 +26,44 @@ export const STATUSES = {
 };
 
 class Main extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.res();
   }
-  res = async () => {
-    const unparsedData = await callApi(``, {
-      method: "GET",
-    });
-    const data = await unparsedData.json();
-
-    const resWithoutDeleted = data.filter(
-      (element) => element.status !== STATUSES.completed
-    );
-    const resActive = data.filter(
-      (element) => element.status === STATUSES.active
-    );
-
-    this.props.addTodo(resWithoutDeleted);
-    this.props.changeCounterAll(resActive.length);
+  res = () => {
+    this.props.getTodos();
   };
 
-  addTodo = async (e) => {
-    const unParsedRes = await callApi("", {
-      method: "POST",
-      body: JSON.stringify({
-        value: e.target.value,
-        status: STATUSES.active,
-      }),
-    });
-    const res = await unParsedRes.json();
-    //todoList.push(res);
-    await this.props.addTodo(res);
-    await this.setCounter(this.props.currentFilter);
+  addTodo = (e) => {
+    const value = e.target.value;
+    const { currentFilter } = this.props;
+    this.props.addTodos(value, currentFilter);
   };
-  changeStatus = async (id, status) => {
-    const unParsedRes = await callApi(`changeStatus/${id}`, {
-      method: "POST",
-      body: JSON.stringify({
-        status: status,
-      }),
-    });
-
-    if (unParsedRes.status === 200) {
-      const newTodoList = this.props.todos.map((element) => {
-        const todo = { ...element };
-        if (todo.id === id) {
-          todo.status = status;
-        }
-        return todo;
-      });
-      this.props.changeTodo(newTodoList);
-    }
-
-    this.setCounter(this.props.currentFilter);
+  changeStatus = (id, status) => {
+    const { currentFilter, changeStatus } = this.props;
+    changeStatus(id, status, currentFilter);
   };
+
   setCurrentFilter = (filter) => {
     this.props.changeFilter(filter);
   };
-  deleteTodo = async (id) => {
-    const unParsedRes = await callApi(`changeStatus/${id}`, {
-      method: "POST",
-      body: JSON.stringify({
-        status: STATUSES.completed,
-      }),
-    });
 
-    if (unParsedRes.status === 200) {
-      const newTodoList = this.props.todos.map((element) => {
-        const todo = { ...element };
-        if (todo.id === id) {
-          todo.status = STATUSES.completed;
-        }
-        return todo;
-      });
-      const filtredNewTodoList = newTodoList.filter(
-        (element) => element.status !== STATUSES.completed
-      );
-      await this.props.changeTodo(filtredNewTodoList);
-    }
-    this.setCounter(this.props.currentFilter);
+  deleteTodo = (id) => {
+    const { currentFilter, deleteTodo } = this.props;
+    deleteTodo(id, currentFilter);
   };
 
-  setCounter = async (filterValue) => {
-    const unParsedRes = await callApi(`getCounter/${filterValue}`, {
-      method: "GET",
-    });
-    const data = await unParsedRes.json();
-    return await this.props.changeCounterAll(data);
+  setCounter = (filterValue) => {
+    this.props.setCounter(filterValue);
   };
 
-  removeCompleted = async () => {
+  removeCompleted = () => {
     const doneTodos = this.props.todos.filter(
       (element) => element.status === 0
     );
-    doneTodos.forEach(async (element) => {
-      const unParsedRes = await callApi(`changeStatus/${element.id}`, {
-        method: "POST",
-        body: JSON.stringify({
-          status: STATUSES.completed,
-        }),
-      });
-      if (unParsedRes.status === 200) {
-        const newTodoList = this.props.todos.filter(
-          (element) => element.status === STATUSES.active
-        );
-        await this.props.changeTodo(newTodoList);
-      }
-      this.setCounter(this.props.currentFilter);
+    doneTodos.forEach((element) => {
+      const filter = this.props.currentFilter;
+      this.props.removeCompleted(element, filter);
+      //this.setCounter(this.props.currentFilter);
     });
   };
 
@@ -142,12 +74,13 @@ class Main extends React.Component {
         : el.status === this.props.currentFilter
     );
 
+    const { todos, currentFilter, counter } = this.props;
     return (
       <div>
         <Title textContent="todos" />
         <Input
           placeholder="What needs to be done?"
-          todos={this.props.todos}
+          todos={todos}
           addTodo={this.addTodo}
         />
         <List
@@ -159,9 +92,9 @@ class Main extends React.Component {
         <Footer
           className="footer"
           setCurrentFilter={this.setCurrentFilter}
-          currentFilter={this.props.currentFilter}
+          currentFilter={currentFilter}
           setCounter={this.setCounter}
-          counter={this.props.counter}
+          counter={counter}
           removeCompleted={this.removeCompleted}
         ></Footer>
         <FooterLower className="lower-footer" />
@@ -182,6 +115,12 @@ const mapDispatchToProps = {
   addTodo: addTodo,
   changeTodo: changeTodo,
   changeFilter: changeFilter,
+  getTodos: getTodos,
+  addTodos: addTodos,
+  changeStatus: changeStatus,
+  setCounter: setCounter,
+  deleteTodo: deleteTodo,
+  removeCompleted: removeCompleted,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
