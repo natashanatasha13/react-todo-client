@@ -1,5 +1,5 @@
 import { STATUSES } from "../components/Main";
-import { ADD_TODO, ALL, CHANGE_TODO, FILTER } from "./constants";
+import { ADD_TODO, ALL, FILTER, GET_TODOS_SUCCEEDED } from "./constants";
 
 const defaultState = {
   todoList: [],
@@ -21,9 +21,8 @@ export const todos = (state = defaultState, action) => {
     case ADD_TODO: {
       return { ...state, todoList: state.todoList.concat(action.payload) };
     }
-    case CHANGE_TODO: {
+    case GET_TODOS_SUCCEEDED:
       return { ...state, todoList: action.payload };
-    }
     default:
       return state;
   }
@@ -33,7 +32,6 @@ export const filter = (state = defaultState, action) => {
     case FILTER: {
       return { ...state, currentFilter: action.payload };
     }
-
     default:
       return state;
   }
