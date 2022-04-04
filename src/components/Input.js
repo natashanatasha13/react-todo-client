@@ -1,9 +1,11 @@
 import React from "react";
 
 class Input extends React.Component {
+  value = this.value;
   renderLi = (event) => {
+    const { addTodo } = this.props;
     if (event.key === "Enter") {
-      this.props.addTodo(event);
+      addTodo(event);
       event.target.value = "";
     }
   };

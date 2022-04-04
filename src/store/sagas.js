@@ -6,20 +6,45 @@ import {
   SET_COUNTER,
   DELETE_TODO,
   REMOVE_COMPLETED,
+  REGISTRATE,
+  LOGIN,
+  GET_NEW_LOGIN,
+  GET_NEW_PASSWORD,
+  CLEAR,
 } from "./constants";
-import { callApi } from "../callApi/Api";
+import { callApi, callApiUsers } from "../callApi/Api";
 import {
   getTodoSucceeded,
   getTodoError,
   addTodo,
   changeCounterAll,
   setCounter,
+  addUser,
+  getId,
+  getLogin,
+  getPassword,
+  clearAll,
+  TodoClear,
 } from "./actions";
 import { STATUSES } from "../components/Main";
 
-function* getTodos() {
+function* getTodo(action) {
   try {
-    const unparsedData = yield callApi(``, {
+    const unparsedIdData = yield callApiUsers(`login`, {
+      method: "POST",
+      body: JSON.stringify({
+        login: action.login,
+        password: action.password,
+      }),
+    });
+    const dataId = yield unparsedIdData.json();
+
+    yield put(getId(dataId));
+    yield localStorage.setItem("login", action.login);
+    yield localStorage.setItem("password", action.password);
+    yield localStorage.setItem("userId", dataId);
+
+    const unparsedData = yield callApi(`${dataId}`, {
       method: "GET",
     });
     const data = yield unparsedData.json();
@@ -29,6 +54,7 @@ function* getTodos() {
     const resActive = data.filter(
       (element) => element.status === STATUSES.active
     );
+
     yield put(changeCounterAll(resActive.length));
   } catch (error) {
     yield put(getTodoError());
@@ -42,11 +68,13 @@ function* postTodos(action) {
       body: JSON.stringify({
         value: action.payload,
         status: STATUSES.active,
+        userId: action.userId,
       }),
     });
     const res = yield unParsedRes.json();
 
     yield put(addTodo(res));
+
     yield put(setCounter(action.filter));
   } catch (error) {
     yield put(getTodoError());
@@ -62,7 +90,7 @@ function* statusChanger(action) {
       }),
     });
 
-    const unparsedData = yield callApi(``, {
+    const unparsedData = yield callApi(`${action.userId}`, {
       method: "GET",
     });
     const data = yield unparsedData.json();
@@ -92,7 +120,7 @@ function* deleteTodo(action) {
       }),
     });
 
-    const unparsedData = yield callApi(``, {
+    const unparsedData = yield callApi(`${action.userId}`, {
       method: "GET",
     });
     const data = yield unparsedData.json();
@@ -122,7 +150,12 @@ function* setTheCounter(action) {
       method: "GET",
     });
     const data = yield unParsedRes.json();
-    yield put(changeCounterAll(data));
+    const id = localStorage.getItem("userId");
+    const filteredByIdData = data.filter(
+      (element) => element.userId === parseInt(id)
+    );
+
+    yield put(changeCounterAll(filteredByIdData.length));
   } catch (error) {
     yield put(getTodoError());
   }
@@ -137,7 +170,7 @@ function* removeCompleted(action) {
         status: STATUSES.completed,
       }),
     });
-    const unparsedData = yield callApi(``, {
+    const unparsedData = yield callApi(`${element.userId}`, {
       method: "GET",
     });
     const data = yield unparsedData.json();
@@ -154,11 +187,77 @@ function* removeCompleted(action) {
   }
 }
 
+function* postUser(action) {
+  try {
+    const unParsedRes = yield callApiUsers("user", {
+      method: "POST",
+      body: JSON.stringify({
+        login: action.login,
+        password: action.password,
+      }),
+    });
+    const res = yield unParsedRes.json();
+    yield put(addUser(res));
+  } catch (error) {
+    console.log("registration error");
+  }
+}
+
+function* getUserId(action) {
+  try {
+    const unparsedData = yield callApiUsers(`login`, {
+      method: "POST",
+      body: JSON.stringify({
+        login: action.login,
+        password: action.password,
+      }),
+    });
+    const data = yield unparsedData.json();
+
+    yield put(getId(data));
+    yield localStorage.setItem("login", action.login);
+    yield localStorage.setItem("password", action.password);
+    yield localStorage.setItem("userId", data);
+  } catch (error) {
+    console.log("login error");
+  }
+}
+
+function* getTheLogin(action) {
+  try {
+    yield put(getLogin(action.payload));
+  } catch (error) {
+    console.log("login error");
+  }
+}
+
+function* getThePassword(action) {
+  try {
+    yield put(getPassword(action.payload));
+  } catch (error) {
+    console.log("login error");
+  }
+}
+
+function* clearData() {
+  try {
+    yield put(TodoClear());
+    yield put(clearAll());
+  } catch (error) {
+    console.log("login error");
+  }
+}
+
 export function* watchSagas() {
-  yield takeEvery(GET_TODOS, getTodos);
+  yield takeEvery(GET_TODOS, getTodo);
   yield takeEvery(ADD_TODOS, postTodos);
   yield takeEvery(CHANGE_STATUS, statusChanger);
   yield takeEvery(SET_COUNTER, setTheCounter);
   yield takeEvery(DELETE_TODO, deleteTodo);
   yield takeEvery(REMOVE_COMPLETED, removeCompleted);
+  yield takeEvery(REGISTRATE, postUser);
+  yield takeEvery(LOGIN, getUserId);
+  yield takeEvery(GET_NEW_LOGIN, getTheLogin);
+  yield takeEvery(GET_NEW_PASSWORD, getThePassword);
+  yield takeEvery(CLEAR, clearData);
 }
