@@ -6,18 +6,18 @@ import { newLogin, newPassword, getTodos } from "../store/actions";
 import Button from "./LoginAndRegButton";
 
 class Login extends React.Component {
-  userLogin = (event) => {
+  handleUserLogin = (event) => {
     const { newLogin } = this.props;
     const loginValue = event.target.value;
     newLogin(loginValue);
   };
-  userPass = (event) => {
+  handleUserPass = (event) => {
     const { newPassword } = this.props;
     const passValue = event.target.value;
     newPassword(passValue);
   };
 
-  enter = () => {
+  handleEnter = () => {
     const { id, getTodos, inputLoginValue, inputPasswordValue } = this.props;
     getTodos(id, inputLoginValue, inputPasswordValue);
   };
@@ -27,27 +27,27 @@ class Login extends React.Component {
     return (
       <div className="registration">
         <Title
-          className={"login_title"}
+          className="login_title"
           text={
             " If it's your first time here you have to registrate down below"
           }
         />
         <InputForLogAndReg
-          placeholder={"Login"}
-          className={"registrationInput"}
-          func={this.userLogin}
+          placeholder="Login"
+          className="registrationInput"
+          func={this.handleUserLogin}
         />
         <InputForLogAndReg
-          placeholder={"Password"}
-          className={"registrationInput"}
-          func={this.userPass}
+          placeholder="Password"
+          className="registrationInput"
+          func={this.handleUserPass}
         />
         <Button
-          className={"button_submit"}
+          className="button_submit"
           link={link}
-          linkFuncLogin={this.enter}
-          linkFuncEnter={this.enter}
-          text={"Sign In"}
+          linkFuncLogin={this.handleEnter}
+          linkFuncEnter={this.handleEnter}
+          text="Sign In"
         />
       </div>
     );

@@ -6,16 +6,16 @@ import InputForLogAndReg from "./LoginAndRegInput";
 import { registrateUser, newLogin, newPassword } from "../store/actions";
 
 class Registration extends React.Component {
-  registrate = () => {
+  handleRegistrate = () => {
     const { registrateUser, inputLoginValue, inputPasswordValue } = this.props;
     registrateUser(inputLoginValue, inputPasswordValue);
   };
-  newUser = (event) => {
+  handleNewUser = (event) => {
     const { newLogin } = this.props;
     const loginValue = event.target.value;
     newLogin(loginValue);
   };
-  newUserPass = (event) => {
+  handleNewUserPass = (event) => {
     const { newPassword } = this.props;
     const passValue = event.target.value;
     newPassword(passValue);
@@ -23,24 +23,24 @@ class Registration extends React.Component {
   render() {
     return (
       <div className="registration">
-        <Title className={"login_title"} text={"Registrate"} />
+        <Title className="login_title" text="Registrate" />
 
         <InputForLogAndReg
-          placeholder={"Create youre login"}
-          className={"registrationInput"}
-          func={this.newUser}
+          placeholder="Create youre login"
+          className="registrationInput"
+          func={this.handleNewUser}
         />
 
         <InputForLogAndReg
-          placeholder={"Create youre password"}
-          className={"registrationInput"}
-          func={this.newUserPass}
+          placeholder="Create youre password"
+          className="registrationInput"
+          func={this.handleNewUserPass}
         />
         <Button
           className="button_submit"
-          func={this.registrate}
+          func={this.handleRegistrate}
           link={"#"}
-          text={"Submit"}
+          text="Submit"
         />
       </div>
     );

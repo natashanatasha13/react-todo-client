@@ -2,7 +2,7 @@ import React from "react";
 import { STATUSES } from "./Main";
 
 class ButtonStatus extends React.Component {
-  change = () => {
+  handleChange = () => {
     const { todoId, status, changeStatus } = this.props;
     changeStatus(todoId, status ? STATUSES.done : STATUSES.active);
   };
@@ -12,7 +12,7 @@ class ButtonStatus extends React.Component {
       <span
         className={`to-change ${status ? `to-change` : `to-change-done`}`}
         status={status}
-        onClick={this.change}
+        onClick={this.handleChange}
       ></span>
     );
   }

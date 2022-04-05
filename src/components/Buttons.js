@@ -1,6 +1,6 @@
 import React from "react";
 class Button extends React.Component {
-  changeFilter = () => {
+  handleChangeFilter = () => {
     const { status, filterValue, setCurrentFilter, setCounter } = this.props;
     setCurrentFilter(status);
     setCounter(filterValue);
@@ -9,7 +9,7 @@ class Button extends React.Component {
     const { textContent, className } = this.props;
 
     return (
-      <div className={className} onClick={this.changeFilter}>
+      <div className={className} onClick={this.handleChangeFilter}>
         {textContent}
       </div>
     );

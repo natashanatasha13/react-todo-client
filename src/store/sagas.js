@@ -30,24 +30,24 @@ import { STATUSES } from "../components/Main";
 
 function* getTodo(action) {
   try {
-    const unparsedIdData = yield callApiUsers(`login`, {
+    const request = yield callApiUsers(`login`, {
       method: "POST",
       body: JSON.stringify({
         login: action.login,
         password: action.password,
       }),
     });
-    const dataId = yield unparsedIdData.json();
+    const dataId = yield request.json();
 
     yield put(getId(dataId));
     yield localStorage.setItem("login", action.login);
     yield localStorage.setItem("password", action.password);
     yield localStorage.setItem("userId", dataId);
 
-    const unparsedData = yield callApi(`${dataId}`, {
+    const response = yield callApi(`${dataId}`, {
       method: "GET",
     });
-    const data = yield unparsedData.json();
+    const data = yield response.json();
 
     yield put(getTodoSucceeded(data));
 
@@ -63,7 +63,7 @@ function* getTodo(action) {
 
 function* postTodos(action) {
   try {
-    const unParsedRes = yield callApi("", {
+    const request = yield callApi("", {
       method: "POST",
       body: JSON.stringify({
         value: action.payload,
@@ -71,9 +71,9 @@ function* postTodos(action) {
         userId: action.userId,
       }),
     });
-    const res = yield unParsedRes.json();
+    const data = yield request.json();
 
-    yield put(addTodo(res));
+    yield put(addTodo(data));
 
     yield put(setCounter(action.filter));
   } catch (error) {
@@ -83,19 +83,19 @@ function* postTodos(action) {
 
 function* statusChanger(action) {
   try {
-    const unParsedRes = yield callApi(`changeStatus/${action.id}`, {
+    const request = yield callApi(`changeStatus/${action.id}`, {
       method: "POST",
       body: JSON.stringify({
         status: action.status,
       }),
     });
 
-    const unparsedData = yield callApi(`${action.userId}`, {
+    const response = yield callApi(`${action.userId}`, {
       method: "GET",
     });
-    const data = yield unparsedData.json();
+    const data = yield response.json();
 
-    if (unParsedRes.status === 200) {
+    if (request.status === 200) {
       const newTodoList = data.map((element) => {
         const todo = { ...element };
         if (todo.id === action.id) {
@@ -113,19 +113,19 @@ function* statusChanger(action) {
 
 function* deleteTodo(action) {
   try {
-    const unParsedRes = yield callApi(`changeStatus/${action.id}`, {
+    const request = yield callApi(`changeStatus/${action.id}`, {
       method: "POST",
       body: JSON.stringify({
         status: STATUSES.completed,
       }),
     });
 
-    const unparsedData = yield callApi(`${action.userId}`, {
+    const response = yield callApi(`${action.userId}`, {
       method: "GET",
     });
-    const data = yield unparsedData.json();
+    const data = yield response.json();
 
-    if (unParsedRes.status === 200) {
+    if (request.status === 200) {
       const newTodoList = data.map((element) => {
         const todo = { ...element };
         if (todo.id === action.id) {
@@ -146,10 +146,10 @@ function* deleteTodo(action) {
 
 function* setTheCounter(action) {
   try {
-    const unParsedRes = yield callApi(`getCounter/${action.filterValue}`, {
+    const response = yield callApi(`getCounter/${action.filterValue}`, {
       method: "GET",
     });
-    const data = yield unParsedRes.json();
+    const data = yield response.json();
     const id = localStorage.getItem("userId");
     const filteredByIdData = data.filter(
       (element) => element.userId === parseInt(id)
@@ -164,18 +164,18 @@ function* setTheCounter(action) {
 function* removeCompleted(action) {
   try {
     const element = action.element;
-    const unParsedRes = yield callApi(`changeStatus/${element.id}`, {
+    const request = yield callApi(`changeStatus/${element.id}`, {
       method: "POST",
       body: JSON.stringify({
         status: STATUSES.completed,
       }),
     });
-    const unparsedData = yield callApi(`${element.userId}`, {
+    const response = yield callApi(`${element.userId}`, {
       method: "GET",
     });
-    const data = yield unparsedData.json();
+    const data = yield response.json();
 
-    if (unParsedRes.status === 200) {
+    if (request.status === 200) {
       const newTodoList = data.filter(
         (element) => element.status === STATUSES.active
       );
@@ -189,15 +189,15 @@ function* removeCompleted(action) {
 
 function* postUser(action) {
   try {
-    const unParsedRes = yield callApiUsers("user", {
+    const request = yield callApiUsers("user", {
       method: "POST",
       body: JSON.stringify({
         login: action.login,
         password: action.password,
       }),
     });
-    const res = yield unParsedRes.json();
-    yield put(addUser(res));
+    const data = yield request.json();
+    yield put(addUser(data));
   } catch (error) {
     console.log("registration error");
   }
@@ -205,14 +205,14 @@ function* postUser(action) {
 
 function* getUserId(action) {
   try {
-    const unparsedData = yield callApiUsers(`login`, {
+    const request = yield callApiUsers(`login`, {
       method: "POST",
       body: JSON.stringify({
         login: action.login,
         password: action.password,
       }),
     });
-    const data = yield unparsedData.json();
+    const data = yield request.json();
 
     yield put(getId(data));
     yield localStorage.setItem("login", action.login);

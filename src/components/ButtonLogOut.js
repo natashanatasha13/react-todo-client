@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { clearAllWatcher } from "../store/actions";
 class ButtonLogOut extends React.Component {
-  clearAll = () => {
+  handleClearAll = () => {
     const { clearAllWatcher } = this.props;
     clearAllWatcher();
     localStorage.clear();
@@ -11,7 +11,7 @@ class ButtonLogOut extends React.Component {
   render() {
     return (
       <div className="button_logout">
-        <Link to="/log" onClick={this.clearAll}>
+        <Link to="/log" onClick={this.handleClearAll}>
           Sign out
         </Link>
       </div>

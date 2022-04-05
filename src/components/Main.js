@@ -69,7 +69,9 @@ class Main extends React.Component {
 
   removeCompleted = () => {
     const { todos, currentFilter, removeCompleted } = this.props;
-    const doneTodos = todos.filter((element) => element.status === 0);
+    const doneTodos = todos.filter(
+      (element) => element.status === STATUSES.done
+    );
     doneTodos.forEach((element) => {
       removeCompleted(element, currentFilter);
     });

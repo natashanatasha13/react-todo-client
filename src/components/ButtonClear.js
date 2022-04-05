@@ -1,6 +1,6 @@
 import React from "react";
 class ButtonClear extends React.Component {
-  removeAllCompleted = () => {
+  handleRemoveAllCompleted = () => {
     const { removeCompleted } = this.props;
     removeCompleted();
   };
@@ -8,7 +8,11 @@ class ButtonClear extends React.Component {
     const { textContent, className, id } = this.props;
 
     return (
-      <div className={className} id={id} onClick={this.removeAllCompleted}>
+      <div
+        className={className}
+        id={id}
+        onClick={this.handleRemoveAllCompleted}
+      >
         {textContent}
       </div>
     );

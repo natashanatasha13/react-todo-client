@@ -1,13 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { registrateUser } from "../store/actions";
 
 class Button extends React.Component {
-  registrate = () => {
-    const { registrateUser, inputLoginValue, inputPasswordValue } = this.props;
-    registrateUser(inputLoginValue, inputPasswordValue);
-  };
   render() {
     const { className, link, text, linkFuncLogin, linkFuncEnter, func } =
       this.props;
@@ -21,11 +15,4 @@ class Button extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  inputLoginValue: state.addUser.inputLoginValue,
-  inputPasswordValue: state.addUser.inputPasswordValue,
-});
-const mapDispatchToProps = {
-  registrateUser: registrateUser,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Button);
+export default Button;
