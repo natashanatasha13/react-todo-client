@@ -1,6 +1,6 @@
 import React from "react";
 class ButtonDelete extends React.Component {
-  change = () => {
+  handleChange = () => {
     const { deleteTodo, todoId } = this.props;
     deleteTodo(todoId);
   };
@@ -8,7 +8,11 @@ class ButtonDelete extends React.Component {
     const { className, status } = this.props;
 
     return (
-      <span className={className} onClick={this.change} status={status}></span>
+      <span
+        className={className}
+        onClick={this.handleChange}
+        status={status}
+      ></span>
     );
   }
 }

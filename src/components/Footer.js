@@ -12,11 +12,12 @@ class Footer extends React.Component {
       setCounter,
       setCurrentFilter,
       currentFilter,
+      counter,
     } = this.props;
 
     return (
       <div className={className}>
-        <Counter textContent={this.props.counter} />
+        <Counter textContent={counter} />
         <Counter textContent="items left" />
         <Button
           className={
@@ -56,6 +57,7 @@ class Footer extends React.Component {
           className="button clear"
           textContent="Clear completed"
           removeCompleted={removeCompleted}
+          currentFilter={currentFilter}
         />
       </div>
     );
