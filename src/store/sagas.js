@@ -26,7 +26,7 @@ import {
   clearAll,
   TodoClear,
 } from "./actions";
-import { STATUSES } from "../components/Main";
+import { STATUSES } from "../functionalComponents/Main";
 
 function* getTodo(action) {
   try {

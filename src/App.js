@@ -1,7 +1,7 @@
 import "./App.css";
-import Login from "./components/Login";
-import Main from "./components/Main";
-import Registration from "./components/Registration";
+import Login from "./functionalComponents/Login";
+import Main from "./functionalComponents/Main";
+import Registration from "./functionalComponents/Registration";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App(props) {

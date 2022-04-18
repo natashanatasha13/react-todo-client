@@ -1,4 +1,4 @@
-import { STATUSES } from "../components/Main";
+import { STATUSES } from "../functionalComponents/Main";
 import {
   ADD_TODO,
   ALL,
