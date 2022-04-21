@@ -3,13 +3,16 @@ import createSagaMiddleware from "redux-saga";
 
 import { watchSagas } from "./sagas";
 
-import { addUser } from "./Reducers";
+import { addUser, counter, filter, todos } from "./Reducers";
 
 const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware();
 
   const rootReducer = combineReducers({
     addUser,
+    counter,
+    filter,
+    todos,
   });
 
   const store = createStore(

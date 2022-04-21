@@ -1,28 +1,31 @@
-import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Button from "./LoginAndRegButton";
 import Title from "./LoginAndRegTitle";
 import InputForLogAndReg from "./LoginAndRegInput";
-import { registrateUser } from "../store/actions";
-import { GET_NEW_LOGIN } from "../store/constants";
-import { Action } from "../store/types";
-import { FC, ReactElement, Dispatch } from "react";
+import { registrateUser, newPassword, newLogin } from "../store/actions";
+import { FC, ReactElement } from "react";
 
 const Registration: FC = (): ReactElement => {
+  const dispatch = useDispatch();
   const inputLoginValue = useSelector(
-    (state: RootStateOrAny) => state.addUser.inputLoginValue
+    (state: any) => state.addUser.inputLoginValue
+  );
+  const inputPasswordValue = useSelector(
+    (state: any) => state.addUser.inputLoginValue
   );
   const handleNewUser = (event: any) => {
     const loginValue = event.target.value;
-
-    // dispatch({ type: GET_NEW_LOGIN, login: loginValue });
+    console.log(loginValue);
+    dispatch(newLogin(loginValue));
+    console.log(inputLoginValue);
   };
   const handleNewUserPass = (event: any) => {
     const passValue = event.target.value;
-    // dispatch(newPassword(passValue));
+    dispatch(newPassword(passValue));
   };
   const handleRegistrate = () => {
     console.log(inputLoginValue);
-    // dispatch(registrateUser(inputLoginValue, inputPasswordValue));
+    dispatch(registrateUser(inputLoginValue, inputPasswordValue));
   };
 
   return (

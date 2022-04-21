@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-const Button = (props: any) => {
+import { Props } from "../store/types/typesProps";
+const Button = (props: Props) => {
   const { className, link, text, linkFuncLogin, linkFuncEnter, func } = props;
   return (
     <div className={className} onClick={func}>
-      <Link to="/test" onMouseDown={linkFuncLogin} onMouseUp={linkFuncEnter}>
+      <Link to={link} onMouseDown={linkFuncLogin} onMouseUp={linkFuncEnter}>
         {text}
       </Link>
     </div>

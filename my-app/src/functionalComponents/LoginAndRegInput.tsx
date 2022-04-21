@@ -1,6 +1,6 @@
 import React from "react";
-
-const InputForLogAndReg = (props: any) => {
+import { Props } from "../store/types/typesProps";
+const InputForLogAndReg = (props: Props) => {
   const { placeholder, className, func } = props;
 
   return (
